@@ -1,0 +1,52 @@
+<article class="card org-row" id="row-{{ row.pk }}">
+  <h3 class="card__title">{{ row.title }}</h3>
+  <p class="card__meta">
+    {{ row.author.user.get_full_name|default:row.author.user.email }}
+    {% if row.author.affiliation %}· {{ row.author.affiliation }}{% endif %}
+  </p>
+  <p>
+    <span class="badge badge--{{ row.status }}">{{ row.get_status_display }}</span>
+    Рецензий: {{ row.reviews_done }} из {{ row.reviews_total }}
+    {% if row.average_score %}· средняя оценка {{ row.average_score|floatformat:1 }}{% endif %}
+  </p>
+
+  {% if error %}<p class="notice notice--error" role="alert">{{ error }}</p>{% endif %}
+
+  {% if conference.reviews_open %}
+    {% if row.status == "submitted" and row.available_reviewers %}
+      <form method="post" action="{% url 'organizer_assign' row.pk %}" class="inline-form"
+            hx-post="{% url 'organizer_assign' row.pk %}"
+            hx-target="#row-{{ row.pk }}" hx-swap="outerHTML">
+        {% csrf_token %}
+        <select name="reviewer" aria-label="Рецензент">
+          <option value="">Выберите рецензента</option>
+          {% for reviewer in row.available_reviewers %}
+            <option value="{{ reviewer.pk }}">{{ reviewer.get_full_name|default:reviewer.email }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="button button--secondary">Назначить</button>
+      </form>
+    {% endif %}
+
+    <div class="actions">
+      {% if row.status != "accepted" %}
+        <form method="post" action="{% url 'organizer_decide' row.pk %}"
+              hx-post="{% url 'organizer_decide' row.pk %}"
+              hx-target="#row-{{ row.pk }}" hx-swap="outerHTML">
+          {% csrf_token %}
+          <input type="hidden" name="decision" value="accept">
+          <button type="submit" class="button">Принять</button>
+        </form>
+      {% endif %}
+      {% if row.status != "rejected" %}
+        <form method="post" action="{% url 'organizer_decide' row.pk %}"
+              hx-post="{% url 'organizer_decide' row.pk %}"
+              hx-target="#row-{{ row.pk }}" hx-swap="outerHTML">
+          {% csrf_token %}
+          <input type="hidden" name="decision" value="reject">
+          <button type="submit" class="button button--secondary">Отклонить</button>
+        </form>
+      {% endif %}
+    </div>
+  {% endif %}
+</article>

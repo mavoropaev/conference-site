@@ -1,0 +1,33 @@
+<article class="card submission" id="submission-{{ submission.pk }}">
+  <h2 class="card__title"><a href="{% url 'submission_detail' submission.pk %}">{{ submission.title }}</a></h2>
+  <p class="card__meta">
+    <a href="{% url 'conference_detail' submission.conference.slug %}">{{ submission.conference.title }}</a>
+    · <span class="badge badge--{{ submission.status }}">{{ submission.get_status_display }}</span>
+  </p>
+
+  {% if error %}
+    <p class="notice notice--error" role="alert">{{ error }}</p>
+  {% endif %}
+
+  <p class="submission__abstract">{{ submission.abstract|truncatewords:60 }}</p>
+
+  {% if submission.file %}
+    <p>Файл: <a href="{{ submission.file.url }}">{{ submission.file.name|cut:"submissions/" }}</a></p>
+  {% endif %}
+
+  {% if editable %}
+    <div class="actions">
+      <a class="button button--secondary" href="{% url 'submission_edit' submission.pk %}"
+         hx-get="{% url 'submission_edit' submission.pk %}"
+         hx-target="#submission-{{ submission.pk }}" hx-swap="outerHTML">Редактировать</a>
+      {% if submission.status == "draft" %}
+        <form method="post" action="{% url 'submission_submit' submission.pk %}"
+              hx-post="{% url 'submission_submit' submission.pk %}"
+              hx-target="#submission-{{ submission.pk }}" hx-swap="outerHTML">
+          {% csrf_token %}
+          <button type="submit" class="button">Отправить на рассмотрение</button>
+        </form>
+      {% endif %}
+    </div>
+  {% endif %}
+</article>

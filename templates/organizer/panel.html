@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Панель: {{ conference.title }}{% endblock %}
+
+{% block content %}
+  <p><a href="{% url 'organizer_dashboard' %}">← Все конференции</a></p>
+  <h1>{{ conference.title }}</h1>
+
+  {% include "organizer/_stage.html" %}
+
+  <h2>Заявки</h2>
+  <div id="submissions" class="org-list">
+    {% include "organizer/_submissions.html" %}
+  </div>
+{% endblock %}

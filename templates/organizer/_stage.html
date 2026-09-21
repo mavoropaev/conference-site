@@ -1,0 +1,44 @@
+<section id="stage-block" class="stage-block">
+  <h2>Этап конференции</h2>
+  <ol class="stage-steps">
+    {% for step in steps %}
+      <li class="stage-steps__item stage-steps__item--{{ step.state }}">{{ step.label }}</li>
+    {% endfor %}
+  </ol>
+
+  {% if error %}<p class="notice notice--error" role="alert">{{ error }}</p>{% endif %}
+
+  <div class="actions">
+    {% if conference.stage != "finished" %}
+      <form method="post" action="{% url 'organizer_advance' conference.slug %}"
+            hx-post="{% url 'organizer_advance' conference.slug %}"
+            hx-target="#stage-block" hx-swap="outerHTML"
+            hx-confirm="Перевести конференцию на следующий этап?">
+        {% csrf_token %}
+        <button type="submit" class="button">Следующий этап</button>
+      </form>
+    {% endif %}
+    {% if perms.conferences.revert_stage and conference.stage != "submission" %}
+      <form method="post" action="{% url 'organizer_revert' conference.slug %}" class="inline-form"
+            hx-post="{% url 'organizer_revert' conference.slug %}"
+            hx-target="#stage-block" hx-swap="outerHTML">
+        {% csrf_token %}
+        <input type="text" name="reason" placeholder="Причина возврата" required maxlength="500"
+               aria-label="Причина возврата на предыдущий этап">
+        <button type="submit" class="button button--secondary">Предыдущий этап</button>
+      </form>
+    {% endif %}
+  </div>
+
+  {% if transitions %}
+    <h3>Журнал переходов</h3>
+    <ul class="journal">
+      {% for t in transitions %}
+        <li>
+          {{ t.created_at|date:"d.m.Y H:i" }} — {{ t.get_from_stage_display }} → {{ t.get_to_stage_display }}
+          ({{ t.changed_by.email|default:"пользователь удалён" }}){% if t.reason %}: {{ t.reason }}{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</section>

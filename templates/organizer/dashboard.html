@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Панель оргкомитета{% endblock %}
+
+{% block content %}
+  <h1>Панель оргкомитета</h1>
+  {% if conferences %}
+    <ul class="card-list">
+      {% for conference in conferences %}
+        <li class="card">
+          <h2 class="card__title">
+            <a href="{% url 'organizer_panel' conference.slug %}">{{ conference.title }}</a>
+          </h2>
+          <p class="card__meta">Отправленных заявок: {{ conference.submitted_count }}</p>
+          <span class="badge badge--{{ conference.stage }}">{{ conference.get_stage_display }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty">Конференций пока нет. Создайте первую в <a href="{% url 'admin:index' %}">админке</a>.</p>
+  {% endif %}
+{% endblock %}

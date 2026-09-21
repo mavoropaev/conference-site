@@ -1,35 +1,4 @@
 // Точка входа стилей. Компилируется django-sass-processor.
-
-$color-bg: #ffffff;
-$color-text: #1f2933;
-$color-accent: #1d4ed8;
-$container-width: 60rem;
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: $color-bg;
-  color: $color-text;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  line-height: 1.5;
-}
-
-.container {
-  max-width: $container-width;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-.site-header {
-  padding: 1rem;
-  border-bottom: 1px solid #e4e7eb;
-
-  &__brand {
-    color: $color-accent;
-    font-weight: 600;
-    text-decoration: none;
-  }
-}
+@import "variables";
+@import "base";
+@import "components";

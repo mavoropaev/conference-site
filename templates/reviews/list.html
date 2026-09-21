@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Мои рецензии{% endblock %}
+
+{% block content %}
+  <h1>Мои рецензии</h1>
+  {% if reviews %}
+    <div class="card-list card-list--single">
+      {% for review in reviews %}
+        <article class="card">
+          <h2 class="card__title">
+            <a href="{% url 'review_detail' review.pk %}">{{ review.submission.title }}</a>
+          </h2>
+          <p class="card__meta">
+            {{ review.submission.conference.title }} ·
+            {% if review.is_completed %}
+              <span class="badge badge--accepted">Оценка: {{ review.score }}</span>
+            {% else %}
+              <span class="badge badge--review">Ждёт рецензии</span>
+            {% endif %}
+          </p>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="empty">Вам пока не назначены заявки для рецензирования.</p>
+  {% endif %}
+{% endblock %}

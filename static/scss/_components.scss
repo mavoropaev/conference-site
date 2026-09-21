@@ -1,0 +1,372 @@
+// Шапка и навигация: на узком экране элементы переносятся на новую строку.
+.site-header {
+  border-bottom: 1px solid $color-border;
+
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem $space;
+    max-width: $container-width;
+    margin: 0 auto;
+    padding: $space;
+  }
+
+  &__brand {
+    color: $color-accent;
+    font-weight: 600;
+    text-decoration: none;
+  }
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem $space;
+
+  &__user {
+    color: $color-muted;
+    overflow-wrap: anywhere;
+  }
+
+  &__form {
+    margin: 0;
+  }
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: $color-accent;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+// Кнопки и формы.
+.button {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border: 0;
+  border-radius: $radius;
+  background: $color-accent;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-accent-dark;
+  }
+}
+
+.form {
+  max-width: 28rem;
+
+  > div {
+    margin-bottom: $space;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid $color-border;
+    border-radius: $radius;
+    font: inherit;
+  }
+
+  .helptext {
+    display: block;
+    color: $color-muted;
+    font-size: 0.875rem;
+  }
+
+  .errorlist {
+    margin: 0 0 0.25rem;
+    padding: 0;
+    list-style: none;
+    color: $color-error;
+    font-size: 0.875rem;
+  }
+}
+
+// Сообщения (django.contrib.messages).
+.messages {
+  margin: 0 0 $space;
+  padding: 0;
+  list-style: none;
+
+  &__item {
+    padding: 0.7rem 1rem;
+    border-radius: $radius;
+    background: $color-surface;
+
+    &--success {
+      color: $color-success;
+    }
+
+    &--error {
+      color: $color-error;
+    }
+  }
+}
+
+// Карточки конференций.
+.card-list {
+  display: grid;
+  gap: $space;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: $breakpoint-sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  padding: $space;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+
+  &__title {
+    margin: 0 0 0.25rem;
+    font-size: 1.25rem;
+  }
+
+  &__meta {
+    margin: 0 0 0.5rem;
+    color: $color-muted;
+  }
+}
+
+// Бейдж этапа конференции.
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: $color-surface;
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  &--submission,
+  &--registration {
+    background: #dbeafe;
+    color: $color-accent-dark;
+  }
+
+  &--review {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  &--ongoing {
+    background: #d1fadf;
+    color: $color-success;
+  }
+}
+
+// Вторичная кнопка и группа действий.
+.button--secondary {
+  background: $color-surface;
+  color: $color-text;
+  border: 1px solid $color-border;
+  text-decoration: none;
+
+  &:hover {
+    background: $color-border;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+
+  form {
+    margin: 0;
+  }
+}
+
+// Одноколоночный список карточек (заявки).
+.card-list--single {
+  grid-template-columns: 1fr;
+}
+
+// Сообщение об ошибке внутри карточки.
+.notice {
+  padding: 0.6rem 0.8rem;
+  border-radius: $radius;
+  background: $color-surface;
+
+  &--error {
+    color: $color-error;
+  }
+}
+
+// Статусы заявок.
+.badge {
+  &--draft {
+    background: $color-surface;
+    color: $color-muted;
+  }
+
+  &--submitted {
+    background: #dbeafe;
+    color: $color-accent-dark;
+  }
+
+  &--accepted {
+    background: #d1fadf;
+    color: $color-success;
+  }
+
+  &--rejected {
+    background: #fee4e2;
+    color: $color-error;
+  }
+}
+
+// Фильтры программы: на узком экране поля друг под другом, от 40rem в строку.
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: $space;
+
+  @media (min-width: $breakpoint-sm) {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  &__field {
+    flex: 1;
+
+    label {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 0.55rem 0.7rem;
+      border: 1px solid $color-border;
+      border-radius: $radius;
+      font: inherit;
+    }
+  }
+}
+
+// Список докладов программы.
+.talk-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.talk {
+  padding: $space 0;
+  border-bottom: 1px solid $color-border;
+
+  &__title {
+    margin: 0 0 0.25rem;
+    font-size: 1.15rem;
+  }
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem $space;
+  margin-top: $space;
+}
+
+// Успешное сообщение внутри блока.
+.notice--success {
+  color: $color-success;
+}
+
+// Панель оргкомитета.
+.stage-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0 0 $space;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+
+  @media (min-width: $breakpoint-sm) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__item {
+    counter-increment: step;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    background: $color-surface;
+    color: $color-muted;
+
+    &::before {
+      content: counter(step) ". ";
+    }
+
+    &--done {
+      background: #d1fadf;
+      color: $color-success;
+    }
+
+    &--current {
+      background: $color-accent;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+}
+
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem;
+
+  input,
+  select {
+    flex: 1;
+    min-width: 12rem;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid $color-border;
+    border-radius: $radius;
+    font: inherit;
+  }
+}
+
+.org-list {
+  display: grid;
+  gap: $space;
+}
+
+.journal {
+  padding-left: 1.2rem;
+  color: $color-muted;
+}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block title %}{{ submission.title }}{% endblock %}
+
+{% block content %}
+  <p><a href="{% url 'submission_list' %}">← Мои заявки</a></p>
+  {% include "submissions/_card.html" %}
+{% endblock %}

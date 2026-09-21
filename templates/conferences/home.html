@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Конференции</h1>
+  {% if conferences %}
+    <ul class="card-list">
+      {% for conference in conferences %}
+        <li class="card">
+          <h2 class="card__title">
+            <a href="{% url 'conference_detail' conference.slug %}">{{ conference.title }}</a>
+          </h2>
+          <p class="card__meta">
+            {{ conference.start_date|date:"j E Y" }} — {{ conference.end_date|date:"j E Y" }}
+            {% if conference.location %}· {{ conference.location }}{% endif %}
+          </p>
+          <span class="badge badge--{{ conference.stage }}">{{ conference.get_stage_display }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty">Пока нет ни одной конференции.</p>
+  {% endif %}
+{% endblock %}

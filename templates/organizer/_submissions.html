@@ -1,0 +1,5 @@
+{% for row in rows %}
+  {% include "organizer/_row.html" %}
+{% empty %}
+  <p class="empty">Отправленных заявок пока нет.</p>
+{% endfor %}

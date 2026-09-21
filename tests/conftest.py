@@ -2,21 +2,23 @@ import datetime
 
 import pytest
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Group, Permission
 
 from conferences.models import Conference
 
 
 @pytest.fixture
 def make_user(db):
-    """Фабрика пользователей: `make_user("a@example.com", perms=["manage_stage"])`."""
+    """Фабрика пользователей: `make_user("a@example.com", perms=[...], groups=["Рецензент"])`."""
 
-    def _make(email="user@example.com", perms=(), **extra):
+    def _make(email="user@example.com", perms=(), groups=(), **extra):
         user = get_user_model().objects.create_user(
             email=email, password="pass-12345-test", **extra
         )
         for codename in perms:
             user.user_permissions.add(Permission.objects.get(codename=codename))
+        for name in groups:
+            user.groups.add(Group.objects.get(name=name))
         return user
 
     return _make

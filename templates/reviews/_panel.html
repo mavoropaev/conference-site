@@ -1,0 +1,28 @@
+<section id="review-panel" class="review-panel">
+  <h1>{{ review.submission.title }}</h1>
+  <p class="card__meta">{{ review.submission.conference.title }}</p>
+  <div class="prose">{{ review.submission.abstract|linebreaks }}</div>
+  {% if review.submission.file %}
+    <p>Файл: <a href="{{ review.submission.file.url }}">{{ review.submission.file.name|cut:"submissions/" }}</a></p>
+  {% endif %}
+
+  <h2>Ваша рецензия</h2>
+  {% if saved %}<p class="notice notice--success" role="status">Рецензия сохранена.</p>{% endif %}
+  {% if error %}<p class="notice notice--error" role="alert">{{ error }}</p>{% endif %}
+
+  {% if open %}
+    <form method="post" action="{% url 'review_detail' review.pk %}" class="form"
+          hx-post="{% url 'review_detail' review.pk %}"
+          hx-target="#review-panel" hx-swap="outerHTML">
+      {% csrf_token %}
+      {{ form.as_div }}
+      <button type="submit" class="button">Сохранить рецензию</button>
+    </form>
+  {% else %}
+    <p class="notice">Этап рецензирования не идёт, рецензию изменить нельзя.</p>
+    {% if review.is_completed %}
+      <p>Оценка: <strong>{{ review.score }}</strong></p>
+      {% if review.comment %}<div class="prose">{{ review.comment|linebreaks }}</div>{% endif %}
+    {% endif %}
+  {% endif %}
+</section>

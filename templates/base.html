@@ -5,12 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Научная конференция{% endblock %}</title>
   <link rel="stylesheet" href="{% sass_src 'scss/main.scss' %}">
+  <script src="{% static 'vendor/htmx.min.js' %}" defer></script>
 </head>
-<body>
+{# CSRF-токен добавляется ко всем запросам HTMX, чтобы POST-запросы фрагментов проходили #}
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
   <header class="site-header">
-    <a class="site-header__brand" href="{% url 'home' %}">Научная конференция</a>
+    <div class="site-header__inner">
+      <a class="site-header__brand" href="{% url 'home' %}">Научная конференция</a>
+      <nav class="site-nav" aria-label="Основная навигация">
+        {% if user.is_authenticated %}
+          <a href="{% url 'submission_list' %}">Мои заявки</a>
+          {% if perms.conferences.manage_stage %}<a href="{% url 'organizer_dashboard' %}">Панель оргкомитета</a>{% endif %}
+          {% if perms.reviews.change_review %}<a href="{% url 'review_list' %}">Мои рецензии</a>{% endif %}
+          <span class="site-nav__user">{{ user.email }}</span>
+          <form method="post" action="{% url 'logout' %}" class="site-nav__form">
+            {% csrf_token %}
+            <button type="submit" class="link-button">Выйти</button>
+          </form>
+        {% else %}
+          <a href="{% url 'login' %}">Войти</a>
+          <a href="{% url 'signup' %}">Регистрация</a>
+        {% endif %}
+      </nav>
+    </div>
   </header>
+
   <main class="container">
+    {% if messages %}
+      <ul class="messages" role="status">
+        {% for message in messages %}
+          <li class="messages__item messages__item--{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
     {% block content %}{% endblock %}
   </main>
 </body>

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}{% if submission %}Редактирование заявки{% else %}Новая заявка{% endif %}{% endblock %}
+
+{% block content %}
+  <h1>{% if submission %}Редактирование заявки{% else %}Новая заявка{% endif %}</h1>
+  <p class="card__meta">{{ conference.title }}</p>
+  {% include "submissions/_form.html" %}
+{% endblock %}

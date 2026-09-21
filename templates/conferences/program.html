@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Программа — {{ conference.title }}{% endblock %}
+
+{% block content %}
+  <p><a href="{% url 'conference_detail' conference.slug %}">← {{ conference.title }}</a></p>
+  <h1>Программа</h1>
+
+  {# Форма обновляет только список результатов; адрес в браузере меняется вместе с фильтром #}
+  <form method="get" class="filters"
+        hx-get="{% url 'conference_program' conference.slug %}"
+        hx-target="#program-results" hx-swap="innerHTML" hx-push-url="true"
+        hx-trigger="input changed delay:300ms from:#id_q, change from:#id_country, submit">
+    <div class="filters__field">
+      <label for="id_q">{{ form.q.label }}</label>
+      <input type="search" name="q" id="id_q" value="{{ form.q.value|default_if_none:'' }}"
+             placeholder="Название, аннотация, автор" maxlength="100">
+    </div>
+    <div class="filters__field">
+      <label for="id_country">{{ form.country.label }}</label>
+      {{ form.country }}
+    </div>
+    <button type="submit" class="button">Найти</button>
+  </form>
+
+  <div id="program-results" aria-live="polite">
+    {% include "conferences/_program_results.html" %}
+  </div>
+{% endblock %}

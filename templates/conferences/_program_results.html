@@ -1,0 +1,34 @@
+{% if page.object_list %}
+  <p class="card__meta">Найдено докладов: {{ page.paginator.count }}</p>
+  <ul class="talk-list">
+    {% for submission in page.object_list %}
+      <li class="talk">
+        <h2 class="talk__title">{{ submission.title }}</h2>
+        <p class="card__meta">
+          {{ submission.author.user.get_full_name|default:"Автор" }}
+          {% if submission.author.affiliation %}· {{ submission.author.affiliation }}{% endif %}
+          {% if submission.author.country %}· {{ submission.author.country }}{% endif %}
+        </p>
+        <p>{{ submission.abstract|truncatewords:50 }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if page.has_other_pages %}
+    <nav class="pagination" aria-label="Страницы">
+      {% if page.has_previous %}
+        <a href="?{% if querystring %}{{ querystring }}&amp;{% endif %}page={{ page.previous_page_number }}"
+           hx-get="{% url 'conference_program' conference.slug %}?{% if querystring %}{{ querystring }}&amp;{% endif %}page={{ page.previous_page_number }}"
+           hx-target="#program-results" hx-push-url="true">← Назад</a>
+      {% endif %}
+      <span>Страница {{ page.number }} из {{ page.paginator.num_pages }}</span>
+      {% if page.has_next %}
+        <a href="?{% if querystring %}{{ querystring }}&amp;{% endif %}page={{ page.next_page_number }}"
+           hx-get="{% url 'conference_program' conference.slug %}?{% if querystring %}{{ querystring }}&amp;{% endif %}page={{ page.next_page_number }}"
+           hx-target="#program-results" hx-push-url="true">Вперёд →</a>
+      {% endif %}
+    </nav>
+  {% endif %}
+{% else %}
+  <p class="empty">Ничего не найдено.</p>
+{% endif %}

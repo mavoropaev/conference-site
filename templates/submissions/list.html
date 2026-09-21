@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Мои заявки{% endblock %}
+
+{% block content %}
+  <h1>Мои заявки</h1>
+
+  {% if open_conferences %}
+    <p>
+      Открыт приём заявок:
+      {% for conference in open_conferences %}
+        <a class="button" href="{% url 'submission_create' conference.slug %}">Подать заявку: {{ conference.title }}</a>
+      {% endfor %}
+    </p>
+  {% endif %}
+
+  {% if submissions %}
+    <div class="card-list card-list--single">
+      {% for submission in submissions %}
+        {% include "submissions/_card.html" with editable=False %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="empty">У вас пока нет заявок.</p>
+  {% endif %}
+{% endblock %}

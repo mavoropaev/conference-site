@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block title %}Рецензия: {{ review.submission.title }}{% endblock %}
+
+{% block content %}
+  <p><a href="{% url 'review_list' %}">← Мои рецензии</a></p>
+  {% include "reviews/_panel.html" %}
+{% endblock %}

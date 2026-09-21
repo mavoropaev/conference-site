@@ -1,0 +1,5 @@
+{# Ответ на смену этапа: блок этапа заменяет целевой, а список заявок обновляется «вне очереди» #}
+{% include "organizer/_stage.html" %}
+<div id="submissions" class="org-list" hx-swap-oob="true">
+  {% include "organizer/_submissions.html" %}
+</div>
