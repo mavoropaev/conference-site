@@ -36,8 +36,9 @@ extend-exclude = ["migrations"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "DJ", "RUF"]
-# Комментарии и строки на русском: ruff путает кириллицу с похожей латиницей.
-ignore = ["RUF001", "RUF002", "RUF003"]
+# RUF001-003: комментарии и строки на русском, ruff путает кириллицу с похожей латиницей.
+# RUF012: штатный стиль Django (Meta.ordering, ModelAdmin.inlines и т.п. как списки).
+ignore = ["RUF001", "RUF002", "RUF003", "RUF012"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["config", "accounts"]
+known-first-party = ["config", "accounts", "conferences", "submissions", "reviews"]

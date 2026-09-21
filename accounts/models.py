@@ -1,5 +1,8 @@
+import re
+
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager as DjangoUserManager
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -36,7 +39,7 @@ class User(AbstractUser):
     email = models.EmailField("email", unique=True)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []  # noqa: RUF012 — штатный паттерн Django
+    REQUIRED_FIELDS = []
 
     objects = UserManager()
 
@@ -46,3 +49,46 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+def validate_orcid(value):
+    """Проверяет формат ORCID (0000-0000-0000-000X) и контрольную цифру (ISO 7064 mod 11-2)."""
+    if not re.fullmatch(r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]", value):
+        raise ValidationError(
+            "ORCID должен иметь вид 0000-0000-0000-0000 (последний символ может быть X)."
+        )
+
+    digits = value.replace("-", "")
+    total = 0
+    for char in digits[:-1]:
+        total = (total + int(char)) * 2
+    check = (12 - total % 11) % 11
+    expected = "X" if check == 10 else str(check)
+    if digits[-1] != expected:
+        raise ValidationError("Неверная контрольная цифра ORCID.")
+
+
+class Profile(models.Model):
+    """Данные участника, не относящиеся к аутентификации.
+
+    Человек существует в системе один раз; его участия в конференциях — отдельные записи
+    (заявки, регистрации), поэтому история участий строится выборкой по профилю.
+    `legacy_id` хранит идентификатор из старой системы (Drupal) для идемпотентного импорта.
+    """
+
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="profile", verbose_name="пользователь"
+    )
+    affiliation = models.CharField("организация", max_length=255, blank=True)
+    country = models.CharField("страна", max_length=100, blank=True)
+    orcid = models.CharField("ORCID", max_length=19, blank=True, validators=[validate_orcid])
+    legacy_id = models.CharField(
+        "идентификатор в старой системе", max_length=64, unique=True, null=True, blank=True
+    )
+
+    class Meta:
+        verbose_name = "профиль"
+        verbose_name_plural = "профили"
+
+    def __str__(self):
+        return f"Профиль {self.user.email}"

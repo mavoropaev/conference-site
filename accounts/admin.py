@@ -1,13 +1,19 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 
-from .models import User
+from .models import Profile, User
+
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
 
 
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
     """Админка пользователей: штатный UserAdmin, переведённый с username на email."""
 
+    inlines = [ProfileInline]
     ordering = ("email",)
     list_display = ("email", "first_name", "last_name", "is_staff")
     search_fields = ("email", "first_name", "last_name")

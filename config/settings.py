@@ -26,6 +26,9 @@ INSTALLED_APPS = [
     "sass_processor",
     "django_htmx",
     "accounts",
+    "conferences",
+    "submissions",
+    "reviews",
 ]
 
 MIDDLEWARE = [
