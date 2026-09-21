@@ -1,0 +1,17 @@
+{% load static sass_tags %}<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Научная конференция{% endblock %}</title>
+  <link rel="stylesheet" href="{% sass_src 'scss/main.scss' %}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-header__brand" href="{% url 'home' %}">Научная конференция</a>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

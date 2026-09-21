@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Инструменты
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Django
+staticfiles/
+media/
+db.sqlite3
+
+# Скомпилированные стили (собираются из SCSS)
+static/**/*.css
+static/**/*.css.map
+
+# Секреты и локальное окружение
+.env
+.env.*
+!.env.example
+
+# Редакторы и ОС
+.idea/
+.vscode/
+.DS_Store

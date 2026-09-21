@@ -1,0 +1,43 @@
+[project]
+name = "conference-site"
+version = "0.1.0"
+description = "Сайт научной конференции: Django + PostgreSQL + HTMX"
+requires-python = ">=3.12"
+dependencies = [
+    "Django>=5.2,<5.3",
+    "psycopg[binary]>=3.2",
+    "django-htmx>=1.19",
+    "django-sass-processor>=1.4",
+    "libsass>=0.23",
+    "gunicorn>=23.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-django>=4.9",
+    "ruff>=0.8",
+]
+
+# Проект не является устанавливаемым пакетом: pip ставит только зависимости.
+[tool.setuptools]
+py-modules = []
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py"]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["migrations"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "DJ", "RUF"]
+# Комментарии и строки на русском: ruff путает кириллицу с похожей латиницей.
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["config", "accounts"]
