@@ -1,0 +1,6 @@
+legacy_id,email,first_name,last_name,affiliation,country,orcid
+drupal-101,old.author1@example.com,Николай,Птицын,Институт орнитологии,Россия,0000-0002-1825-0097
+drupal-102,old.author2@example.com,Клара,Зайцева,Университет Северного Леса,Россия,
+drupal-103,old.author3@example.com,Юрий,Медведев,Институт зоологии,Беларусь,
+drupal-104,old.participant1@example.com,Ольга,Лисицына,Полевая станция «Заповедник»,Россия,
+drupal-105,old.participant2@example.com,Артём,Волков,Институт экологии,Казахстан,

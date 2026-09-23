@@ -1,0 +1,7 @@
+legacy_id,conference_slug,conference_title,conference_start_date,conference_end_date,conference_location,role,submission_title,submission_abstract,status
+drupal-101,old-symposium-2018,Симпозиум по орнитологии 2018,2018-06-05,2018-06-07,Заповедный Бор,author,Миграция птиц северного леса,Наблюдения за миграцией на протяжении трёх сезонов.,accepted
+drupal-102,old-symposium-2018,Симпозиум по орнитологии 2018,2018-06-05,2018-06-07,Заповедный Бор,author,Гнездование редких видов,Обзор мест гнездования в охранной зоне.,accepted
+drupal-103,old-symposium-2018,Симпозиум по орнитологии 2018,2018-06-05,2018-06-07,Заповедный Бор,participant,,,
+drupal-104,old-symposium-2018,Симпозиум по орнитологии 2018,2018-06-05,2018-06-07,Заповедный Бор,participant,,,
+drupal-101,old-symposium-2020,Симпозиум по орнитологии 2020,2020-09-14,2020-09-16,Тихая Заводь,author,Зимовка водоплавающих птиц,Итоги наблюдений за зимующими популяциями.,accepted
+drupal-105,old-symposium-2020,Симпозиум по орнитологии 2020,2020-09-14,2020-09-16,Тихая Заводь,participant,,,

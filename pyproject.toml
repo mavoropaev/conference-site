@@ -41,4 +41,6 @@ select = ["E", "F", "W", "I", "B", "UP", "DJ", "RUF"]
 ignore = ["RUF001", "RUF002", "RUF003", "RUF012"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["config", "accounts", "conferences", "submissions", "reviews", "organizer"]
+known-first-party = [
+    "config", "accounts", "conferences", "submissions", "reviews", "organizer", "legacy_import",
+]

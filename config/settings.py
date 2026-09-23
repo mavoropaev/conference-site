@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "conferences",
     "submissions",
     "reviews",
+    "legacy_import",
 ]
 
 MIDDLEWARE = [
