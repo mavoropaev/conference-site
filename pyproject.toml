@@ -8,6 +8,7 @@ dependencies = [
     "psycopg[binary]>=3.2",
     "django-htmx>=1.19",
     "django-sass-processor>=1.4",
+    "django-compressor>=4.5",
     "libsass>=0.23",
     "gunicorn>=23.0",
 ]

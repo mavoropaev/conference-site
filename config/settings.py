@@ -24,6 +24,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "sass_processor",
+    # Нужен command `compilescss` (собирает SCSS в боевом режиме перед `collectstatic`),
+    # сам конвейер django-compressor (COMPRESS_ENABLED) не используется.
+    "compressor",
     "django_htmx",
     "accounts",
     "conferences",
